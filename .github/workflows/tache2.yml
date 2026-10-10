@@ -1,0 +1,26 @@
+name: IFT3913 Tache 2 Tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  tache2-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
+      - name: Build required modules
+        run: ./mvnw -pl tika-core -am -DskipTests install
+
+      - name: Run Tache 2 tests
+        run: ./mvnw -pl tika-core -Dtest=InputStreamDigesterTest,InputStreamDigesterChatUniTestTest,InputStreamDigesterManualTest test
