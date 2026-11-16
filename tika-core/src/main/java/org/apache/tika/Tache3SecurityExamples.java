@@ -52,6 +52,14 @@ public final class Tache3SecurityExamples {
             return statement.execute(query);
         }
     }
+    
+    // Vulnerability: Insecure AES-ECB encryption mode
+    // Deliberately insecure educational example.
+    public static javax.crypto.Cipher insecureEcbCipher()
+            throws java.security.GeneralSecurityException {
+
+        return javax.crypto.Cipher.getInstance("AES/ECB/PKCS5Padding");
+    }
 
 }
 
