@@ -43,20 +43,22 @@ public final class Tache3SecurityExamples {
         return MessageDigest.getInstance("SHA-1").digest(input);
     }
     
-    // Vulnerability 2: SQL Injection (CWE-89)
+    
+    // Vulnerability 7: SQL Injection (CWE-89)
     // Deliberately insecure educational example.
-    public static boolean insecureSqlLookup(
+    public static void insecureSqlLookup(
             java.sql.Connection connection, String username)
             throws java.sql.SQLException {
 
-        try (java.sql.Statement statement = connection.createStatement()) {
-            String query = String.format(
-                    "SELECT * FROM users WHERE username = '%s'",
-                    username);
+        try (java.sql.Statement statement =
+                     connection.createStatement()) {
 
-            return statement.execute(query);
+            statement.execute(
+                    "SELECT * FROM users WHERE username = '"
+                    + username + "'");
         }
     }
+
     
     // Vulnerability: Insecure AES-ECB encryption mode
     // Deliberately insecure educational example.
