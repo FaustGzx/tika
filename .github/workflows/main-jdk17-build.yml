@@ -23,13 +23,19 @@ on:
     paths-ignore:
       - 'docs/**'
   push:
-    branches: [ main ]
+    branches: [ main, tache3 ]
     paths-ignore:
       - 'docs/**'
 
 jobs:
+  security:
+    name: Semgrep Security Gate
+    uses: ./.github/workflows/semgrep.yml
+
   build:
+    needs: security
     runs-on: ubuntu-latest
+
     timeout-minutes: 60
     strategy:
       matrix:
