@@ -37,4 +37,20 @@ public final class Tache3SecurityExamples {
             throws NoSuchAlgorithmException {
         return MessageDigest.getInstance("SHA-1").digest(input);
     }
+    
+    // Vulnerability 2: SQL Injection (CWE-89)
+    // Deliberately insecure educational example.
+    public static boolean insecureSqlLookup(
+            java.sql.Connection connection, String username)
+            throws java.sql.SQLException {
+
+        String query = "SELECT * FROM users WHERE username = '" + username + "'";
+
+        try (java.sql.Statement statement = connection.createStatement();
+             java.sql.ResultSet result = statement.executeQuery(query)) {
+            return result.next();
+        }
+    }
+
 }
+
