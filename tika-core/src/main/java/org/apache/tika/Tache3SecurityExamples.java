@@ -44,7 +44,7 @@ public final class Tache3SecurityExamples {
     }
     
     
-    // Vulnerability 7: SQL Injection (CWE-89)
+    // Vulnerability : SQL Injection (CWE-89)
     // Deliberately insecure educational example.
     public static void insecureSqlLookup(
             java.sql.Connection connection, String username)
@@ -60,7 +60,7 @@ public final class Tache3SecurityExamples {
     }
 
     
-    // Vulnerability: Insecure AES-ECB encryption mode
+    // Vulnerability 2: Insecure AES-ECB encryption mode
     // Deliberately insecure educational example.
     public static javax.crypto.Cipher insecureEcbCipher()
             throws java.security.GeneralSecurityException {
@@ -117,6 +117,19 @@ public final class Tache3SecurityExamples {
 
         return hex.toString();
     }
+    
+    // Vulnerability 7: OS Command Injection (CWE-78)
+    // Deliberately insecure educational example.
+    public static void insecureCommandExecution(String userCommand)
+            throws java.io.IOException {
+
+        ProcessBuilder builder = new ProcessBuilder();
+
+        builder.command("bash", "-c", userCommand);
+
+        builder.start();
+    }
+
 
 
 }
