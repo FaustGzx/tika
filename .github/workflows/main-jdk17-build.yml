@@ -51,17 +51,21 @@ jobs:
           cache: 'maven'
       - name: Install external tools
         run: sudo apt-get update && sudo apt-get install -y ffmpeg libimage-exiftool-perl
+      
       - name: Build with Maven
         run: mvn -pl tika-core -am clean apache-rat:check verify -Pci -B
+
+      - name: Show Checkstyle errors
         if: failure()
         run: |
           if [ -f tika-core/target/checkstyle-result.xml ]; then
             grep -n -B 3 -A 1 '<error ' tika-core/target/checkstyle-result.xml || true
-
           else
             echo "Checkstyle report not found"
           fi
+
   e2e-tests:
+
     runs-on: ubuntu-latest
     timeout-minutes: 30
     needs: build
