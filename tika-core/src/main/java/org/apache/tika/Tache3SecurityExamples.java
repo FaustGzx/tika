@@ -24,6 +24,7 @@ package org.apache.tika;
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Educational security examples for IFT3913 Tache 3.
@@ -73,8 +74,16 @@ public final class Tache3SecurityExamples {
                     secret.getBytes(java.nio.charset.StandardCharsets.UTF_8));
         }
     }
+    
+    // Vulnerability 4: XML External Entity (XXE) (CWE-611)
+    // Deliberately insecure educational example.
+    public static org.w3c.dom.Document insecureXmlParse(
+            java.io.InputStream input) throws Exception {
 
+        DocumentBuilderFactory factory =
+                DocumentBuilderFactory.newInstance();
 
-
+        return factory.newDocumentBuilder().parse(input);
+    }
 }
 
