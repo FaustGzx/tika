@@ -1,0 +1,50 @@
+
+name: Semgrep Security Check
+
+on:
+  push:
+    branches: [tache3]
+  pull_request:
+    branches: [main, tache3]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  semgrep:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    container:
+      image: semgrep/semgrep
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Check new vulnerabilities
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE: ${{ github.event.pull_request.base.sha }}
+          PUSH_BASE: ${{ github.event.before }}
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            BASE="$PR_BASE"
+          elif [ "$EVENT_NAME" = "push" ]; then
+            BASE="$PUSH_BASE"
+          else
+            BASE="$(git merge-base HEAD origin/main)"
+          fi
+
+          if [ -z "$BASE" ] || [ "$BASE" = "0000000000000000000000000000000000000000" ]; then
+            echo "No valid baseline commit found"
+            exit 1
+          fi
+
+          semgrep scan \
+            --config p/java \
+            --config p/security-audit \
+            --baseline-commit "$BASE" \
+            --error .
