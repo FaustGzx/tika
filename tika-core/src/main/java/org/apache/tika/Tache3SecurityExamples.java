@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *      http://www.apache.org/licenses/LICENSE-2.0
+ *     http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -14,16 +14,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 package org.apache.tika;
 
 import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.SSLSession;
-
+import javax.xml.parsers.DocumentBuilderFactory;
 
 /**
  * Educational security examples for IFT3913 Tache 3.
@@ -108,8 +106,4 @@ public final class Tache3SecurityExamples {
 
         builder.start();
     }
-
-
-
 }
-
