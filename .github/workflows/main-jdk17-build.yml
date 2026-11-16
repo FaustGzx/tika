@@ -57,7 +57,8 @@ jobs:
         if: failure()
         run: |
           if [ -f tika-core/target/checkstyle-result.xml ]; then
-            grep -n '<error ' tika-core/target/checkstyle-result.xml || true
+            grep -n -B 3 -A 1 '<error ' tika-core/target/checkstyle-result.xml || true
+
           else
             echo "Checkstyle report not found"
           fi
