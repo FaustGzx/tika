@@ -46,5 +46,7 @@ jobs:
           semgrep scan \
             --config p/java \
             --config p/security-audit \
+            --config r/java.lang.security.audit.command-injection-process-builder.command-injection-process-builder \
             --baseline-commit "$BASE" \
             --error .
+        
