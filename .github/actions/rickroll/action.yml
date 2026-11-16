@@ -1,0 +1,23 @@
+
+name: Rickroll on Test Failure
+description: Reusable Rickroll action for failed Tika tests
+
+runs:
+  using: composite
+  steps:
+    - name: Rickroll surprise
+      shell: bash
+      run: |
+        echo "================================="
+        echo "  Tika test failed!"
+        echo "  You've been Rickrolled!"
+        echo "================================="
+        echo "https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+
+        {
+          echo "## Tika Test Failed!"
+          echo ""
+          echo "You've been Rickrolled!"
+          echo ""
+          echo "[Click here for your surprise](https://www.youtube.com/watch?v=dQw4w9WgXcQ)"
+        } >> "$GITHUB_STEP_SUMMARY"
