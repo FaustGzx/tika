@@ -25,6 +25,9 @@ import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.net.ssl.HostnameVerifier;
+import javax.net.ssl.SSLSession;
+
 
 /**
  * Educational security examples for IFT3913 Tache 3.
@@ -85,5 +88,17 @@ public final class Tache3SecurityExamples {
 
         return factory.newDocumentBuilder().parse(input);
     }
+    
+    // Vulnerability 5: Insecure Hostname Verifier (CWE-295)
+    // Deliberately insecure educational example.
+    public static HostnameVerifier insecureHostnameVerifier() {
+
+        return new HostnameVerifier() {
+            public boolean verify(String hostname, SSLSession session) {
+                return true;
+            }
+        };
+    }
+
 }
 
