@@ -52,8 +52,44 @@ jobs:
       - name: Install external tools
         run: sudo apt-get update && sudo apt-get install -y ffmpeg libimage-exiftool-perl
       
+      
       - name: Build with Maven
+        id: maven_build
         run: mvn -pl tika-core -am clean apache-rat:check verify -Pci -B
+
+      - name: Detect failed Maven tests
+        id: test_failure
+        if: ${{ failure() && steps.maven_build.outcome == 'failure' }}
+        shell: bash
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          import os
+          import xml.etree.ElementTree as ET
+
+          failed = False
+          for report in Path(".").rglob("TEST-*.xml"):
+              if report.parent.name not in ("surefire-reports", "failsafe-reports"):
+                  continue
+              try:
+                  root = ET.parse(report).getroot()
+                  suites = [root] if root.tag == "testsuite" else root.findall(".//testsuite")
+                  for suite in suites:
+                      count = int(suite.get("failures", "0")) + int(suite.get("errors", "0"))
+                      if count > 0:
+                          failed = True
+                          print(f"Failed test report: {report}")
+              except (OSError, ET.ParseError, ValueError) as exc:
+                  print(f"Could not read {report}: {exc}")
+
+          with open(os.environ["GITHUB_OUTPUT"], "a") as output:
+              output.write(f"failed={str(failed).lower()}\n")
+          PY
+
+      - name: Rickroll on test failure
+        if: ${{ failure() && steps.test_failure.outputs.failed == 'true' }}
+        uses: ./.github/actions/rickroll
+
 
       - name: Show Checkstyle errors
         if: failure()
