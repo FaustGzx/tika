@@ -99,6 +99,23 @@ public final class Tache3SecurityExamples {
             }
         };
     }
+    
+    // Vulnerability 6: Bad Hex Conversion (CWE-704)
+    // Deliberately insecure educational example.
+    public static String insecureHexConversion(byte[] input)
+            throws NoSuchAlgorithmException {
+
+        MessageDigest md = MessageDigest.getInstance("SHA-256");
+        byte[] digest = md.digest(input);
+
+        StringBuilder hex = new StringBuilder();
+        for (byte b : digest) {
+            hex.append(Integer.toHexString(b & 0xFF));
+        }
+
+        return hex.toString();
+    }
+
 
 }
 
