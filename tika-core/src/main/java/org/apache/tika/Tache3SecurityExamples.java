@@ -21,6 +21,7 @@
 
 package org.apache.tika;
 
+import java.net.Socket;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 
@@ -67,11 +68,12 @@ public final class Tache3SecurityExamples {
             String host, int port, String secret)
             throws java.io.IOException {
 
-        try (java.net.Socket socket = new java.net.Socket(host, port)) {
+        try (Socket socket = new Socket(host, port)) {
             socket.getOutputStream().write(
                     secret.getBytes(java.nio.charset.StandardCharsets.UTF_8));
         }
     }
+
 
 
 }
