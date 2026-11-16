@@ -60,6 +60,19 @@ public final class Tache3SecurityExamples {
 
         return javax.crypto.Cipher.getInstance("AES/ECB/PKCS5Padding");
     }
+    
+    // Vulnerability 3: Unencrypted Socket (CWE-319)
+    // Deliberately insecure educational example.
+    public static void insecureSocket(
+            String host, int port, String secret)
+            throws java.io.IOException {
+
+        try (java.net.Socket socket = new java.net.Socket(host, port)) {
+            socket.getOutputStream().write(
+                    secret.getBytes(java.nio.charset.StandardCharsets.UTF_8));
+        }
+    }
+
 
 }
 
